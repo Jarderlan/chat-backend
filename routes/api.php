@@ -1,7 +1,7 @@
 <?php
 
 use App\Events\MessageEvent;
-use App\Http\Controllers\{AuthController, UserController};
+use App\Http\Controllers\{AuthController, ChatController, UserController};
 use Illuminate\Support\Facades\{Route, Event};
 
 /*
@@ -24,9 +24,11 @@ Route::group(['prefix' => 'auth'], function () {
 Route::resource('user', UserController::class); //Middleware sendo aplicado no proprio controler para remover o store
 Route::group(['middleware' => 'auth:sanctum'], function () {
     //Rotas autenticadas
+    Route::get('/chat/all', [ChatController::class, 'getLastPublicMessages']);
+    Route::post('/chat/all', [ChatController::class, 'publicChat']);
 });
 
 Route::get('teste', function () {
-    Event::dispatch(new MessageEvent(["username" => "Jardeson Erlan", "message" => "Funcionou de verdade oh"]));
+    Event::dispatch(new MessageEvent(["user" => ["id" => 0, "name" => "Jardeson Erlan"], "message" => "Funcionou de verdade oh"]));
     return "evento disparado";
 });
