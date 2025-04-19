@@ -35,6 +35,6 @@ class MessageEvent implements ShouldBroadcast
     //Mensagem do Canal
     public function broadcastWith()
     {
-        return ['message' => $this->data];
+        return ['dados' => $this->data];
     }
 }
